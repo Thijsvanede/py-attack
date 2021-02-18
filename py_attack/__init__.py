@@ -1,1 +1,2 @@
-from .attack import ATTACK, ATTACKDomain
+from .attack  import ATTACK
+from .domains import ATTACKDomain

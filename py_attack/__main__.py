@@ -1,4 +1,4 @@
-from py_attack import ATTACK, ATTACKDomain
+from py_attack import ATTACK
 import networkx as nx
 
 if __name__ == "__main__":
