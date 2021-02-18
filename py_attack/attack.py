@@ -171,6 +171,39 @@ class ATTACK(MutableMapping):
             yield from attack.software
 
     ########################################################################
+    #                  Retrieve ATT&CK concept attributes                  #
+    ########################################################################
+
+    def concepts(self):
+        """Generator over all concepts of the ATT&CK framework.
+
+            Note
+            ----
+            Yields the following concept types:
+            Matrix
+            Tactic
+            Technique
+            Sub-technique
+            Procedure
+            Mitigation
+            Group
+            Software
+
+            Yields
+            ------
+            concept : dict()
+                A dictionary describing each ATT&CK concept.
+            """
+        # Iterate over all concepts
+        yield from self.matrices
+        yield from self.tactics
+        yield from self.techniques
+        yield from self.procedures
+        yield from self.mitigations
+        yield from self.groups
+        yield from self.software
+
+    ########################################################################
     #                          Map ID to concept                           #
     ########################################################################
 
