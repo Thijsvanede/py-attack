@@ -8,7 +8,8 @@ TODO
 TODO
 
 ## Visualisation
-TODO
+We provide a Django app for visualisation.
+Note that this is meant to run locally and not for production purposes!
 
 ## References
 [1] TODO
