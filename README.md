@@ -36,7 +36,8 @@ from py_attack       import ATTACKDomain     # Optional, only if working with a 
 from py_attack.utils import get_id, get_uuid # Optional, add utilities
 ```
 
-Next we can load the ATT&CK framework from various sources:
+Next we can load the ATT&CK framework from various sources.
+Please note that the `url` or `path` should contain the template `{domain}`, which will be replaced by the different domains specified by the `domains` parameter.
 ```python
 # Download from online source
 attack = ATTACK.download(
