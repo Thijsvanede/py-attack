@@ -73,19 +73,20 @@ uuid = get_uuid(concept)
 #### Iterating
 ```python
 # We support the following concepts:
-# * attack.matrices
-# * attack.tactics
-# * attack.techniques
-# * attack.sub_techniques
-# * attack.mitigations
-# * attack.groups
-# * attack.software
-for concept in attack.matrices:
+# attack.concepts
+# attack.matrices
+# attack.tactics
+# attack.techniques
+# attack.sub_techniques
+# attack.mitigations
+# attack.groups
+# attack.software
+for concept in attack.concepts:
     # Do stuff with your attack concept
     pass
 
 # Iterate over concepts for specific domain:
-for concept in attack.domains['enterprise'].matrices:
+for concept in attack.domains['enterprise'].concepts:
     # Do stuff with your attack concept
     pass
 ```

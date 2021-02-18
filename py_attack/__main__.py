@@ -46,7 +46,7 @@ if __name__ == "__main__":
         pass
 
     # Iterate over concepts for specific domain:
-    for concept in attack.domains['enterprise'].matrices:
+    for concept in attack.domains['enterprise'].concepts:
         # Do stuff with your attack concept
         pass
 
