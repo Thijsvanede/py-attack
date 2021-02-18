@@ -415,6 +415,7 @@ class ATTACKDomain(object):
     #                  Retrieve ATT&CK concept attributes                  #
     ########################################################################
 
+    @property
     def concepts(self):
         """Generator over all concepts of the ATT&CK framework for this domain.
 
@@ -455,7 +456,7 @@ class ATTACKDomain(object):
             """
         return {
             get_id(concept): concept
-            for concept in self.concepts()
+            for concept in self.concepts
             if get_id(concept)
         }
 
@@ -470,7 +471,7 @@ class ATTACKDomain(object):
             """
         return {
             get_uuid(concept): concept
-            for concept in self.concepts()
+            for concept in self.concepts
             if get_uuid(concept)
         }
 

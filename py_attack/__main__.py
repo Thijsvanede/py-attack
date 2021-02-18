@@ -8,14 +8,13 @@ if __name__ == "__main__":
     ########################################################################
 
     # Download latest ATTACK framework
-    # attack = ATTACK.download()
+    attack = ATTACK.download()
 
     # Alternatively load the framework from a local directory
-    attack = ATTACK.load(
-        # path    = '/path/to/local/cti/{domain}-attack/{domain}-attack.json',
-        path    = '/home/thijs/Documents/research/eagle/data/cti/{domain}-attack/{domain}-attack.json',
-        domains = ['enterprise', 'mobile', 'ics'],
-    )
+    # attack = ATTACK.load(
+    #     path    = '/path/to/local/cti/{domain}-attack/{domain}-attack.json',
+    #     domains = ['enterprise', 'mobile', 'ics'],
+    # )
 
     ########################################################################
     #                           Search by (UU)ID                           #
@@ -34,14 +33,15 @@ if __name__ == "__main__":
     ########################################################################
 
     # We support the following concepts:
-    # * attack.matrices
-    # * attack.tactics
-    # * attack.techniques
-    # * attack.sub_techniques
-    # * attack.mitigations
-    # * attack.groups
-    # * attack.software
-    for concept in attack.matrices:
+    # attack.concepts
+    # attack.matrices
+    # attack.tactics
+    # attack.techniques
+    # attack.sub_techniques
+    # attack.mitigations
+    # attack.groups
+    # attack.software
+    for concept in attack.concepts:
         # Do stuff with your attack concept
         pass
 

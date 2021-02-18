@@ -174,6 +174,7 @@ class ATTACK(MutableMapping):
     #                  Retrieve ATT&CK concept attributes                  #
     ########################################################################
 
+    @property
     def concepts(self):
         """Generator over all concepts of the ATT&CK framework.
 
