@@ -44,7 +44,7 @@ attack = ATTACK.download(
     domains = ['enterprise', 'ics', 'mobile', 'pre'],
 )
 
-# Download from local path
+# Load from local path
 attack = ATTACK.load(
     path    = "path/to/local/cti/{domain}-attack/{domain}-attack.json",
     domains = ['enterprise', 'ics', 'mobile', 'pre'],
