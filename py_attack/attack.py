@@ -389,6 +389,9 @@ class ATTACK(MutableMapping):
 
             # Loop over all nodes to visit
             for node in to_visit:
+                # Skip nodes that are not in graph
+                if node not in self.graph: continue
+
                 # Get neigbors of that node
                 for neighbor in nx.classes.function.all_neighbors(self.graph, node):
                     # Check if neighbor was already visited
