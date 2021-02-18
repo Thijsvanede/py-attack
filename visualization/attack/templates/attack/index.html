@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>ATT&CK Visualization</title>
+
+        <!-- Load CCS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <h1>ATT&CK Framework Navigator</h1>
+
+            <hr>
+
+            <!-- Load framework -->
+            <section id="loading">
+                <h2>Load framework</h2>
+
+                <!-- Framework load options -->
+                <div class="row">
+
+                    <!-- URL input -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <h5 class="card-header">From URL - NOT IMPLEMENTED YET</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <input type="url" id="load-url" style="width:100%;" name="url" placeholder="https://url.to.download" disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="btn btn-primary"  id="submit-url" type="submit" value="Download" onclick="loadUrl()" disabled>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="progress">
+                                            <div id="progress-load-url" style="width:0%" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Path input -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <h5 class="card-header">From directory</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <input class="form-control" type="text" id="load-path" style="width:100%;" name="path" placeholder="/path/to/framework/" value="/home/thijs/Documents/research/eagle/data/cti"/ required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input class="btn btn-primary"  id="submit-path" type="submit" value="Load" onclick="loadPath()">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="progress">
+                                            <div id="progress-load-path" style="width:0%" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr>
+
+            <!-- Show graph -->
+            <section id="attack">
+                <h2>ATT&CK Overview</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <h5 class="card-header">Selected</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="selected" class="">
+                                            <h5 id="title">Title</h5>
+                                            <p id="description">Description</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h5>Domains</h5>
+                                    </div>
+                                    <div class="col-md-10">
+                                        list
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h5>Tactics</h5>
+                                    </div>
+                                    <div class="col-md-10">
+                                        list
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h5>Techniques</h5>
+                                    </div>
+                                    <div class="col-md-10">
+                                        list
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h5>Mitigations</h5>
+                                    </div>
+                                    <div class="col-md-10">
+                                        list
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        // Load path from directory
+        loadPath = function(){
+            // Get path
+            var path = document.getElementById("load-path").value;
+
+            // Remove existing valid/invalid labels
+            document.getElementById("load-path").classList.remove("is-invalid");
+            document.getElementById("load-path").classList.remove("is-valid");
+
+            // Set progress bar to empty
+            setProgress("progress-load-path", 0, "", "bg-info")
+
+            // Check if path is defined
+            if (path === ""){
+                // Set input to invalid
+                document.getElementById("load-path").classList.add("is-invalid");
+            } else {
+                // Set input to valid
+                document.getElementById("load-path").classList.add("is-valid");
+
+                // Update progress bar
+                setProgress("progress-load-path", 20, "Loading", "bg-info")
+
+                // Send message to load ATT&CK from path
+                sendMessage({
+                    'command': 'load',
+                    'path'   : path,
+                });
+            }
+        }
+
+        // Load path on enter
+        var input_path = document.getElementById("load-path");
+        input_path.addEventListener("keyup", function(event){
+            // Check for ENTER key
+            if (event.keyCode === 13){
+                // Prevent default action
+                event.preventDefault();
+                // Simulate clicking load button
+                document.getElementById("submit-path").click();
+            }
+        });
+
+        /******************************************************************/
+        /*                          Progress bar                          */
+        /******************************************************************/
+
+        function setProgress(barId, percentage, inner, type){
+            // Set default values
+            inner = (inner === undefined) ? ""+percentage+"%" : inner;
+            type  = (type  === undefined) ? "bg-info" : type;
+
+            // Get progress bar
+            var bar = document.getElementById(barId);
+            // Remove backgrounds from bar
+            bar.classList.remove("bg-success");
+            bar.classList.remove("bg-info");
+            bar.classList.remove("bg-warning");
+            bar.classList.remove("bg-danger");
+            bar.classList.add(type);
+
+            // Set inner percentage
+            bar.innerHTML = inner;
+
+            // Get current percentage
+            var current = bar.style.width.substring(0, -1);
+            if (current == "")
+                current = 0;
+            else
+                current = Number(current);
+
+            // Smooth transition to percentage
+            for (current; current <= percentage; current++)
+                // Update percentage
+                bar.style.width = "" + current + "%";
+                bar.setAttribute("aria-valuenow", current);
+
+                sleep(50);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        /******************************************************************/
+        /*                      Server communication                      */
+        /******************************************************************/
+
+        // Initialise socket
+        const socket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/attack/'
+        )
+
+        // Set basic communication
+        socket.onclose = function(e){
+            console.error('Socket closed unexpectedly');
+        }
+
+        // Receive dictionary
+        socket.onmessage = function(e){
+            // Parse data as JSON
+            var data = JSON.parse(e.data);
+
+            // Parse received message
+            if (data.action === "load-complete"){
+                console.log(data);
+                // Update progress bar
+                setProgress("progress-load-path", 100, "Loading complete", "bg-success")
+            }
+        }
+
+        // Send dictionary
+        sendMessage = function(e){
+            // Transform data to json
+            data = JSON.stringify(e)
+            // Send data
+            socket.send(data);
+        }
+
+
+    </script>
+</html>
