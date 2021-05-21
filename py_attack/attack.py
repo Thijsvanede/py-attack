@@ -11,7 +11,7 @@ from py_attack.domains import ATTACKDomain
 
 class ATTACK(MutableMapping):
     """The ATTACK object provides a simple interface for loading and interacting
-    with the ATT&CK framework."""
+        with the ATT&CK framework."""
 
     ########################################################################
     #                        ATTACK as a dictionary                        #

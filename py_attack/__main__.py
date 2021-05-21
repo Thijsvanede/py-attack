@@ -1,20 +1,52 @@
+# Import argument parser
+import argformat
+import argparse
+import os
+
 # Import the ATTACK framework
 from py_attack import ATTACK
 
 if __name__ == "__main__":
+    ########################################################################
+    #                        Load ATTACK framework                         #
+    ########################################################################
+    parser = argparse.ArgumentParser(
+        description     = "Python implementation of MITRE's ATT&CK framework",
+        formatter_class = argformat.StructuredFormatter,
+    )
+
+    parser.add_argument('--path'    , default = None        , help='path to local CTI repository')
+    parser.add_argument('--download', action  = 'store_true', help='download framework from online repository')
+
+    args = parser.parse_args()
+
+    # Either --path or --download should be specified, not both
+    if not bool(args.path) ^ bool(args.download):
+        raise ValueError("Please specify either --path or --download, not both")
 
     ########################################################################
     #                        Load ATTACK framework                         #
     ########################################################################
 
     # Download latest ATTACK framework
-    attack = ATTACK.download()
+    if args.download:
+        attack = ATTACK.download()
 
     # Alternatively load the framework from a local directory
-    # attack = ATTACK.load(
-    #     path    = '/path/to/local/cti/{domain}-attack/{domain}-attack.json',
-    #     domains = ['enterprise', 'mobile', 'ics'],
-    # )
+    if args.path:
+        # Format of path
+        path = '/path/to/local/cti/{domain}-attack/{domain}-attack.json',
+        # Create path from arguments
+        path = os.path.join(
+            args.path,
+            "{domain}-attack",
+            "{domain}-attack.json"
+        )
+
+        attack = ATTACK.load(
+            path    = path,
+            domains = ['enterprise', 'mobile', 'ics'],
+        )
 
     ########################################################################
     #                           Search by (UU)ID                           #

@@ -411,6 +411,72 @@ class ATTACKDomain(object):
         # Return graph
         return self._graph
 
+
+    def related_concepts(self, identifier, depth=1):
+        """Returns all concepts related to the given identifier.
+
+            Format
+            ------
+            Matrix       : MAxxxx
+            Tactic       : TAxxxx
+            Technique    : Txxxx(.yyy)
+            Sub-Technique: Txxxx.yyy
+            Mitigation   : Mxxxx
+            Group        : Gxxxx
+            Software     : Sxxxx
+
+            Parameters
+            ----------
+            identifier : string
+                Identifier according to the given format.
+
+            depth : int, default=1
+                Depth of related concepts in graph. 1 means only direct
+                neighbors, 2 includes neighbors of neighbors, etc.
+
+            Returns
+            -------
+            related_concepts : set()
+                Set of related concepts
+            """
+        # Initialise related concepts
+        related_concepts = {identifier}
+
+        # Create a dictionary of related concepts by depth level
+        visit_current = 0
+        visited = {
+            0: {identifier}
+        }
+
+        # Loop until all depths are visited
+        while visit_current < depth:
+            # Extract concepts to visit
+            to_visit = visited[visit_current]
+
+            # Increment current
+            visit_next = visit_current + 1
+            visited[visit_next] = set()
+
+            # Loop over all nodes to visit
+            for node in to_visit:
+                # Skip nodes that are not in graph
+                if node not in self.graph: continue
+
+                # Get neigbors of that node
+                for neighbor in nx.classes.function.all_neighbors(self.graph, node):
+                    # Check if neighbor was already visited
+                    if neighbor not in related_concepts:
+                        visited[visit_next].add(neighbor)
+
+                    # Add neigbor as related concept
+                    related_concepts.add(neighbor)
+
+            # Set level to visit next
+            visit_current = visit_next
+
+        # Return all related concepts except identifier
+        return related_concepts - {identifier}
+
     ########################################################################
     #                  Retrieve ATT&CK concept attributes                  #
     ########################################################################
@@ -597,7 +663,7 @@ class ATTACKDomain(object):
             path : string
                 Path from which to load ATT&CKDomain.
 
-            domains : string
+            domain : string
                 Name of domain to load.
 
             Returns
