@@ -1,6 +1,7 @@
 # Import argument parser
 import argformat
 import argparse
+import networkx as nx
 import os
 
 # Import the ATTACK framework
@@ -90,6 +91,9 @@ if __name__ == "__main__":
     graph = attack.graph
     # Get graph for specific domain
     graph = attack.domains['enterprise'].graph
+
+    # Write graph to outfile
+    nx.write_gexf(graph, 'graph.gexf')
 
     ########################################################################
     #                     Find related ATT&CK concepts                     #
