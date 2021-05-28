@@ -328,55 +328,61 @@ class ATTACKDomain(object):
             for tactic in self.tactics:
                 self._graph.add_node(
                     get_id(tactic),
-                    id = get_id(tactic),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Tactic",
+                    id          = get_id(tactic),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Tactic",
+                    description = tactic.get('description'),
                 )
             # Add all ATT&CK techniques to graph
             for technique in self.techniques:
                 self._graph.add_node(
                     get_id(technique),
-                    id        = get_id(technique),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Technique",
+                    id          = get_id(technique),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Technique",
+                    description = technique.get('description'),
                 )
             # Add all ATT&CK sub_techniques to graph
             for sub_technique in self.sub_techniques:
                 self._graph.add_node(
                     get_id(sub_technique),
-                    id        = get_id(sub_technique),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Sub-technique",
+                    id          = get_id(sub_technique),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Sub-technique",
+                    description = sub_technique.get('description'),
                 )
             # Add all ATT&CK mitigations to graph
             for mitigation in self.mitigations:
                 self._graph.add_node(
                     get_id(mitigation),
-                    id        = get_id(mitigation),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Mitigation",
+                    id          = get_id(mitigation),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Mitigation",
+                    description = mitigation.get('description'),
                 )
             # Add all ATT&CK groups to graph
             for group in self.groups:
                 self._graph.add_node(
                     get_id(group),
-                    id        = get_id(group),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Group",
+                    id          = get_id(group),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Group",
+                    description = group.get('description'),
                 )
             # Add all ATT&CK software to graph
             for software in self.software:
                 self._graph.add_node(
                     get_id(software),
-                    id        = get_id(software),
-                    domain    = self.domain,
-                    framework = "ATTACK",
-                    category  = "Software",
+                    id          = get_id(software),
+                    domain      = self.domain,
+                    framework   = "ATTACK",
+                    category    = "Software",
+                    description = software.get('description'),
                 )
 
             # Count number of nodes
