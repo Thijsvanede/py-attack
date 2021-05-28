@@ -204,6 +204,32 @@ class ATTACK(MutableMapping):
         yield from self.groups
         yield from self.software
 
+    @property
+    def graph_concepts(self):
+        """Generator over all ATT&CK concepts present in the graph.
+
+            Note
+            ----
+            Yields the following concept types:
+            Tactic
+            Technique
+            Sub-technique
+            Mitigation
+            Group
+            Software
+
+            Yields
+            ------
+            concept : dict()
+                A dictionary describing each ATT&CK graph concept.
+            """
+        # Iterate over all concepts
+        yield from self.tactics
+        yield from self.techniques
+        yield from self.mitigations
+        yield from self.groups
+        yield from self.software
+
     ########################################################################
     #                          Map ID to concept                           #
     ########################################################################
@@ -356,7 +382,7 @@ class ATTACK(MutableMapping):
 
                 # Add all nodes
                 for node in graph.nodes():
-                    self._graph.add_node(node)
+                    self._graph.add_node(node, **graph.nodes[node])
 
                 # Add existing edges
                 edges = dict()
