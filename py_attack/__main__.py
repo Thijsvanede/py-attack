@@ -1,7 +1,8 @@
 # Import argument parser
 import argformat
 import argparse
-import networkx as nx
+import matplotlib.pyplot as plt
+import networkx          as nx
 import os
 
 # Import the ATTACK framework
@@ -94,6 +95,11 @@ if __name__ == "__main__":
 
     # Write graph to outfile
     nx.write_gexf(graph, 'graph.gexf')
+
+    # Plot graph
+    attack.plot()
+    plt.show()
+    # plt.savefig('plot_attack.png', dpi=300)
 
     ########################################################################
     #                     Find related ATT&CK concepts                     #

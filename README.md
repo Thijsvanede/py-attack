@@ -94,10 +94,22 @@ for concept in attack.domains['enterprise'].concepts:
 
 #### Graphs
 ```python
+# Import networkx and plot libraries
+import matplotlib.pyplot as plt
+import networkx          as nx
+
 # Get graph for entire framework
 graph = attack.graph
 # Get graph for specific domain
 graph = attack.domains['enterprise'].graph
+
+# Write graph to outfile
+nx.write_gexf(graph, 'graph.gexf')
+
+# Plot graph
+attack.plot()
+plt.show()
+plt.savefig('path/to/plot.png', dpi=300)
 ```
 
 #### Finding related concepts

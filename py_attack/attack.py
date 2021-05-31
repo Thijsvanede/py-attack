@@ -9,6 +9,11 @@ import warnings
 from collections.abc   import MutableMapping
 from py_attack.domains import ATTACKDomain
 
+# Plot imports
+import matplotlib.pyplot as plt
+import pydot
+from networkx.drawing.nx_pydot import graphviz_layout
+
 class ATTACK(MutableMapping):
     """The ATTACK object provides a simple interface for loading and interacting
         with the ATT&CK framework."""
@@ -400,6 +405,52 @@ class ATTACK(MutableMapping):
 
         # Return graph
         return self._graph
+
+
+    def plot(self, domain=None):
+        """Plots ATTACK as a graph to show relations between concepts.
+
+            Parameters
+            ----------
+            domain : string ('enterprise' | 'ics' | 'mobile' | 'pre'), optional
+                If given, only plot the given domain.
+            """
+        # Get graph representation of ATTACK object
+        if domain is None:
+            graph = self.graph
+        else:
+            graph = self.domains.get(domain).graph
+
+        # Remove attributes of nodes in graph
+        for node in graph.nodes():
+            if 'description' in graph.nodes[node]:
+                _ = graph.nodes[node].pop('description')
+
+        # Get graph where the only edges are "ParentOf"
+        graph_ = nx.subgraph_view(
+            graph,
+            filter_edge = lambda u, v: True
+            # graph.edges[(u, v)].get('label') == "test"
+        )
+
+        # Get labels
+        labels = {node: graph_.nodes[node].get('id') for node in graph_.nodes()}
+
+        # Plot using a tree hierarchy layout
+        pos = graphviz_layout(graph_, prog='dot')
+
+        # Draw graph
+        nx.draw(
+            graph_,
+            pos,
+            alpha      = 0.8,
+            font_size  = 8,
+            labels     = labels,
+            node_size  = 50,
+            node_color = 'black',
+            width      = 0.5,
+        )
+
 
 
     def related_concepts(self, identifier, depth=1):
