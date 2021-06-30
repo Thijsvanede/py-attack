@@ -4,8 +4,8 @@ import pickle
 import re
 import requests
 
-from stix2           import Filter, MemoryStore
-from py_attack.utils import get_id, get_uuid
+from py_attack.utils  import get_id, get_uuid
+from py_attack.filter import Filter, query
 
 class ATTACKDomain(object):
     """The ATTACKDomain object provides a simple interface for loading and
@@ -25,8 +25,8 @@ class ATTACKDomain(object):
                 Domain covered by the ATTACKDomain. E.g., enterprise, mobile,
                 ics.
 
-            store : stix2.datastore.memory.MemoryStore
-                MemoryStore for ATT&CK domain
+            store : dict()
+                Dictionary for ATT&CK domain, loaded from CTI json file.
             """
         # Set domain name
         self.domain = domain
@@ -54,7 +54,7 @@ class ATTACKDomain(object):
         if self._matrices is None:
 
             # Extract matrices
-            self._matrices = self.store.query([
+            self._matrices = query(self.store, [
                 Filter('type', '=', 'x-mitre-matrix')
             ])
 
@@ -78,7 +78,7 @@ class ATTACKDomain(object):
         if self._tactics is None:
 
             # Extract tactics
-            self._tactics = self.store.query([
+            self._tactics = query(self.store, [
                 Filter('type', '=', 'x-mitre-tactic')
             ])
 
@@ -107,7 +107,7 @@ class ATTACKDomain(object):
         if self._techniques is None:
 
             # Extract techniques
-            self._techniques = self.store.query([
+            self._techniques = query(self.store, [
                 Filter('type', '=', 'attack-pattern')
             ])
 
@@ -136,7 +136,7 @@ class ATTACKDomain(object):
         if self._sub_techniques is None:
 
             # Extract sub-techniques
-            self._sub_techniques = self.store.query([
+            self._sub_techniques = query(self.store, [
                 Filter('type'                   , '=', 'attack-pattern'),
                 Filter('x_mitre_is_subtechnique', '=', True            ),
             ])
@@ -166,7 +166,7 @@ class ATTACKDomain(object):
         if self._procedures is None:
 
             # Extract procedures
-            self._procedures = self.store.query([
+            self._procedures = query(self.store, [
                 Filter('type'             , '='       , 'relationship'  ),
                 Filter('relationship_type', '='       , 'uses'          ),
                 Filter('target_ref'       , 'contains', 'attack-pattern'),
@@ -198,7 +198,7 @@ class ATTACKDomain(object):
         if self._relationships is None:
 
             # Extract relationships
-            self._relationships = self.store.query([
+            self._relationships = query(self.store, [
                 Filter('type', '=', 'relationship'),
             ])
 
@@ -222,7 +222,7 @@ class ATTACKDomain(object):
         if self._mitigations is None:
 
             # Extract mitigations and add to mitigations
-            self._mitigations = self.store.query([
+            self._mitigations = query(self.store, [
                 Filter('type', '=', 'course-of-action')
             ])
 
@@ -251,7 +251,7 @@ class ATTACKDomain(object):
         if self._groups is None:
 
             # Extract groups
-            self._groups = self.store.query([
+            self._groups = query(self.store, [
                 Filter('type', '=', 'intrusion-set')
             ])
 
@@ -283,11 +283,11 @@ class ATTACKDomain(object):
             self._software = list()
 
             # Extract malware and add to software
-            self._software.extend(self.store.query([
+            self._software.extend(query(self.store, [
                 Filter('type', '=', 'malware')
             ]))
             # Extract tools and add to software
-            self._software.extend(self.store.query([
+            self._software.extend(query(self.store, [
                 Filter('type', '=', 'tool')
             ]))
 
@@ -411,7 +411,7 @@ class ATTACKDomain(object):
                 technique_id = get_id(technique)
 
                 # Find corresponding kill chain phases
-                for phase in technique.kill_chain_phases:
+                for phase in technique.get("kill_chain_phases"):
                     # Find tactic of kill chain phase
                     tactic = ref_tactics_name.get(phase.get('phase_name'))
                     tactic = get_id(tactic)
@@ -717,11 +717,8 @@ class ATTACKDomain(object):
         with open(path, 'r') as infile:
             stix_json = json.load(infile)
 
-        # Store data
-        store = MemoryStore(stix_data=stix_json["objects"])
-
         # Return ATTACK
-        return cls(domain, store)
+        return cls(domain, stix_json["objects"])
 
 
     @classmethod
@@ -762,8 +759,5 @@ class ATTACKDomain(object):
         # Download ATTACKDomain as json
         stix_json = requests.get(url).json()
 
-        # Store data
-        source = MemoryStore(stix_data=stix_json["objects"])
-
         # Return ATTACKDomain
-        return cls(domain, source)
+        return cls(domain, stix_json)
