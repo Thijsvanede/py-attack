@@ -61,6 +61,9 @@ class ATTACKDomain(object):
             # Filter deprecated concepts
             self._matrices = self.filter_deprecated(self._matrices)
 
+            # Add MITRE ATT&CK ID to concept
+            self._matrices = self.add_mitre_attack_id(self._matrices)
+
         # Return result
         return self._matrices
 
@@ -90,6 +93,9 @@ class ATTACKDomain(object):
             for concept in self._tactics:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
 
+            # Add MITRE ATT&CK ID to concept
+            self._tactics = self.add_mitre_attack_id(self._tactics)
+
         # Return result
         return self._tactics
 
@@ -118,6 +124,9 @@ class ATTACKDomain(object):
             regex_tactics = re.compile('T[0-9]{4}(\.[0-9]{3})?')
             for concept in self._techniques:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
+
+            # Add MITRE ATT&CK ID to concept
+            self._techniques = self.add_mitre_attack_id(self._techniques)
 
         # Return result
         return self._techniques
@@ -149,6 +158,9 @@ class ATTACKDomain(object):
             for concept in self._sub_techniques:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
 
+            # Add MITRE ATT&CK ID to concept
+            self._sub_techniques = self.add_mitre_attack_id(self._sub_techniques)
+
         # Return result
         return self._sub_techniques
 
@@ -174,6 +186,9 @@ class ATTACKDomain(object):
 
             # Filter deprecated concepts
             self._procedures = self.filter_deprecated(self._procedures)
+
+            # Add MITRE ATT&CK ID to concept
+            self._procedures = self.add_mitre_attack_id(self._procedures)
 
         # Return result
         return self._procedures
@@ -205,6 +220,9 @@ class ATTACKDomain(object):
             # Filter deprecated concepts
             self._relationships = self.filter_deprecated(self._relationships)
 
+            # Add MITRE ATT&CK ID to concept
+            self._relationships = self.add_mitre_attack_id(self._relationships)
+
         # Return result
         return self._relationships
 
@@ -234,6 +252,9 @@ class ATTACKDomain(object):
             for concept in self._mitigations:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
 
+            # Add MITRE ATT&CK ID to concept
+            self._mitigations = self.add_mitre_attack_id(self._mitigations)
+
         # Return result
         return self._mitigations
 
@@ -262,6 +283,9 @@ class ATTACKDomain(object):
             regex_tactics = re.compile('G[0-9]{4}')
             for concept in self._groups:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
+
+            # Add MITRE ATT&CK ID to concept
+            self._groups = self.add_mitre_attack_id(self._groups)
 
         # Return result
         return self._groups
@@ -299,8 +323,66 @@ class ATTACKDomain(object):
             for concept in self._software:
                 assert regex_tactics.fullmatch(get_id(concept)) is not None
 
+            # Add MITRE ATT&CK ID to concept
+            self._software = self.add_mitre_attack_id(self._software)
+
         # Return result
         return self._software
+
+    ########################################################################
+    #                       Add MITRE ID to concepts                       #
+    ########################################################################
+
+    def add_mitre_attack_id(self, concepts, keys=['identifier']):
+        """Add MITRE ATT&CK ID to a multiple concepts.
+
+            Parameters
+            ----------
+            concepts : iterable of dict()
+                Concepts for which to add MITRE ATT&CK ID.
+
+            keys : list(), default=['identifier']
+                Key(s) in which to store concept ID.
+
+            Returns
+            -------
+            concepts : list of dict()
+                Concepts where MITRE ATT&CK ID was added to key values.
+            """
+        # Set MITRE ATT&CK IDs to each concept
+        return [
+            self._add_mitre_attack_id_(concept, keys)
+            for concept in concepts
+        ]
+
+    def _add_mitre_attack_id_(self, concept, keys=['identifier']):
+        """Add MITRE ATT&CK ID to a single concept.
+
+            Parameters
+            ----------
+            concept : dict()
+                Dictionary for which to add MITRE ATT&CK ID.
+
+            keys : list(), default=['identifier']
+                Key(s) in which to store concept ID.
+
+            Returns
+            -------
+            concept : dict()
+                Concept where MITRE ATT&CK ID was added to key values.
+            """
+        # Perform checks
+        assert isinstance(concept, dict), "Concept should be a dictionary."
+        for key in keys:
+            assert key not in concept, "'{}' is already in concept".format(key)
+
+        # Add identifier to concept
+        identifier = get_id(concept)
+        for key in keys:
+            concept[key] = identifier
+
+        # Return concept
+        return concept
 
     ########################################################################
     #                             ATT&CK graph                             #
