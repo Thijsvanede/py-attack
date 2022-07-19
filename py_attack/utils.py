@@ -1,4 +1,4 @@
-def get_uuid(concept):
+def get_uuid(concept: dict) -> str:
     """Get the UUID of an ATT&CK concept.
 
         Format
@@ -18,7 +18,7 @@ def get_uuid(concept):
     return concept.get('id')
 
 
-def get_id(concept):
+def get_id(concept: dict) -> str:
     """Get the human readable ID of an ATT&CK concept.
 
         Format

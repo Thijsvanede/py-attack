@@ -1,16 +1,17 @@
 # Imports
 import copy
-import json
 import networkx as nx
 import pickle
 import re
 import warnings
+from typing import Dict, Iterator, List, Optional, Set
 
 from collections.abc   import MutableMapping
 from py_attack.domains import ATTACKDomain
 
 # Plot imports
 import matplotlib.pyplot as plt
+from py_attack.types import DomainTypes
 import pydot
 from networkx.drawing.nx_pydot import graphviz_layout
 
@@ -62,67 +63,67 @@ class ATTACK(MutableMapping):
     ########################################################################
 
     @property
-    def matrices(self):
+    def matrices(self) -> Iterator[dict]:
         """Retrieve all matrices from the ATT&CK framework.
 
             Yields
             ------
-            matrices : list()
-                matrices of all ATT&CK domains.
+            matrix : dict()
+                matrix for each ATT&CK domain.
             """
         for domain, attack in self.domains.items():
             yield from attack.matrices
 
     @property
-    def tactics(self):
+    def tactics(self) -> Iterator[dict]:
         """Retrieve all tactics from the ATT&CK framework.
 
             Yields
             ------
-            tactics : list()
+            tactics : dict()
                 tactics of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.tactics
 
     @property
-    def techniques(self):
+    def techniques(self) -> Iterator[dict]:
         """Retrieve all techniques from the ATT&CK framework.
 
             Yields
             ------
-            techniques : list()
+            techniques : dict()
                 techniques of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.techniques
 
     @property
-    def sub_techniques(self):
+    def sub_techniques(self) -> Iterator[dict]:
         """Retrieve all sub-techniques from the ATT&CK framework.
 
             Yields
             ------
-            sub_techniques : list()
+            sub_techniques : dict()
                 sub_techniques of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.sub_techniques
 
     @property
-    def procedures(self):
+    def procedures(self) -> Iterator[dict]:
         """Retrieve all procedures from the ATT&CK framework.
 
             Yields
             ------
-            procedures : list()
+            procedures : dict()
                 procedures of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.procedures
 
     @property
-    def relationships(self):
+    def relationships(self) -> Iterator[dict]:
         """Retrieve all relationships from the ATT&CK framework.
 
             Note
@@ -133,43 +134,43 @@ class ATTACK(MutableMapping):
 
             Yields
             ------
-            relationships : list()
+            relationships : dict()
                 relationships of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.relationships
 
     @property
-    def mitigations(self):
+    def mitigations(self) -> Iterator[dict]:
         """Retrieve all mitigations from the ATT&CK framework.
 
             Yields
             ------
-            mitigations : list()
+            mitigations : dict()
                 mitigations of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.mitigations
 
     @property
-    def groups(self):
+    def groups(self) -> Iterator[dict]:
         """Retrieve all groups from the ATT&CK framework.
 
             Yields
             ------
-            groups : list()
+            groups : dict()
                 groups of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
             yield from attack.groups
 
     @property
-    def software(self):
+    def software(self) -> Iterator[dict]:
         """Retrieve all software from the ATT&CK framework.
 
             Yields
             ------
-            software : list()
+            software : dict()
                 software of all ATT&CK domains.
             """
         for domain, attack in self.domains.items():
@@ -180,7 +181,7 @@ class ATTACK(MutableMapping):
     ########################################################################
 
     @property
-    def concepts(self):
+    def concepts(self) -> Iterator[dict]:
         """Generator over all concepts of the ATT&CK framework.
 
             Note
@@ -210,7 +211,7 @@ class ATTACK(MutableMapping):
         yield from self.software
 
     @property
-    def graph_concepts(self):
+    def graph_concepts(self) -> Iterator[dict]:
         """Generator over all ATT&CK concepts present in the graph.
 
             Note
@@ -239,7 +240,7 @@ class ATTACK(MutableMapping):
     #                          Map ID to concept                           #
     ########################################################################
 
-    def get(self, identifier, default=None):
+    def get(self, identifier: str, default: object = None) -> dict:
         """Map identifier to ATT&CK concept.
 
             Format
@@ -273,12 +274,12 @@ class ATTACK(MutableMapping):
                default))
 
     @property
-    def map_id(self):
+    def map_id(self) -> Dict[str, dict]:
         """Generate a map of ID to ATT&CK concept.
 
             Returns
             -------
-            result : dict()
+            result : Dict[str, dict]
                 Map of ID to dict() representing ATT&CK concept.
             """
         # Cache map
@@ -308,12 +309,12 @@ class ATTACK(MutableMapping):
 
 
     @property
-    def map_uuid(self):
+    def map_uuid(self) -> Dict[str, dict]:
         """Generate a map of UUID to ATT&CK concept.
 
             Returns
             -------
-            result : dict()
+            result : Dict[str, dict]
                 Map of UUID to dict() representing ATT&CK concept.
             """
         # Cache map
@@ -347,7 +348,7 @@ class ATTACK(MutableMapping):
     ########################################################################
 
     @property
-    def graph(self):
+    def graph(self) -> nx.DiGraph:
         """Get the relations within the ATT&CK framework as a graph.
 
             Returns
@@ -407,7 +408,7 @@ class ATTACK(MutableMapping):
         return self._graph
 
 
-    def plot(self, domain=None):
+    def plot(self, domain: Optional[DomainTypes] = None) -> None:
         """Plots ATTACK as a graph to show relations between concepts.
 
             Parameters
@@ -501,7 +502,7 @@ class ATTACK(MutableMapping):
 
 
 
-    def related_concepts(self, identifier, depth=1):
+    def related_concepts(self, identifier: str, depth: int = 1) -> Set[dict]:
         """Returns all concepts related to the given identifier.
 
             Format
@@ -567,7 +568,12 @@ class ATTACK(MutableMapping):
         return related_concepts - {identifier}
 
 
-    def get_relation(self, source, target, bidirectional=True):
+    def get_relation(
+            self,
+            source: str,
+            target: str,
+            bidirectional: bool = True,
+        ) -> dict:
         """Return the relation between a source and targed node.
 
             Format
@@ -633,7 +639,7 @@ class ATTACK(MutableMapping):
     #                             I/O methods                              #
     ########################################################################
 
-    def summary(self):
+    def summary(self) -> str:
         """Returns a string summary of ATT&CK framework."""
         # Initialise header
         result  = "ATT&CK Framework\n"
@@ -649,7 +655,7 @@ class ATTACK(MutableMapping):
         # Return result
         return result
 
-    def store_pickle(self, outfile):
+    def store_pickle(self, outfile: str) -> None:
         """Store ATT&CK framework as pickled file for quicker loading.
 
             Parameters
@@ -662,7 +668,7 @@ class ATTACK(MutableMapping):
             pickle.dump(self, outfile)
 
     @classmethod
-    def load_pickle(cls, infile):
+    def load_pickle(cls, infile: str):
         """Load ATT&CK framework from pickled file for quicker loading.
 
             Parameters
@@ -683,7 +689,11 @@ class ATTACK(MutableMapping):
         return attack
 
     @classmethod
-    def load(cls, path, domains=['enterprise', 'ics', 'mobile', 'pre']):
+    def load(
+            cls,
+            path: str,
+            domains: List[DomainTypes] = ['enterprise', 'ics', 'mobile', 'pre'],
+        ):
         """Load ATT&CK framework from path.
 
             Parameters
@@ -716,8 +726,8 @@ class ATTACK(MutableMapping):
 
     @classmethod
     def download(cls,
-            url     = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/{domain}-attack/{domain}-attack.json",
-            domains = ['enterprise', 'ics', 'mobile', 'pre'],
+            url    : str = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/{domain}-attack/{domain}-attack.json",
+            domains: List[DomainTypes] = ['enterprise', 'ics', 'mobile', 'pre'],
         ):
         """Download ATT&CK framework from url.
 

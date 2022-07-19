@@ -2,7 +2,9 @@ import json
 import networkx as nx
 import pickle
 import re
+from py_attack.types import DomainTypes
 import requests
+from typing import Dict, Iterable, Iterator, List, Set
 
 from py_attack.utils  import get_id, get_uuid
 from py_attack.filter import Filter, query
@@ -15,13 +17,13 @@ class ATTACKDomain(object):
     #                     ATTACKDomain as a dictionary                     #
     ########################################################################
 
-    def __init__(self, domain, store):
+    def __init__(self, domain: DomainTypes, store: dict):
         """The ATTACKDomain object provides a simple interface for loading and
             interacting with a domain in the ATT&CK framework.
 
             Parameters
             ----------
-            domain : string
+            domain : DomainTypes
                 Domain covered by the ATTACKDomain. E.g., enterprise, mobile,
                 ics.
 
@@ -42,7 +44,7 @@ class ATTACKDomain(object):
     ########################################################################
 
     @property
-    def matrices(self):
+    def matrices(self) -> List[dict]:
         """Retrieve all matrices from the ATT&CKDomain.
 
             Returns
@@ -69,7 +71,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def tactics(self):
+    def tactics(self) -> List[dict]:
         """Retrieve all tactics from the ATT&CKDomain.
 
             Returns
@@ -101,7 +103,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def techniques(self):
+    def techniques(self) -> List[dict]:
         """Retrieve all techniques from the ATT&CKDomain.
 
             Returns
@@ -133,7 +135,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def sub_techniques(self):
+    def sub_techniques(self) -> List[dict]:
         """Retrieve all sub-techniques from the ATT&CKDomain.
 
             Returns
@@ -166,7 +168,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def procedures(self):
+    def procedures(self) -> List[dict]:
         """Retrieve all procedures from the ATT&CKDomain.
 
             Returns
@@ -195,7 +197,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def relationships(self):
+    def relationships(self) -> List[dict]:
         """Retrieve all relationships from the ATT&CKDomain.
 
             Note
@@ -228,7 +230,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def mitigations(self):
+    def mitigations(self) -> List[dict]:
         """Retrieve all mitigations from the ATT&CKDomain.
 
             Returns
@@ -260,7 +262,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def groups(self):
+    def groups(self) -> List[dict]:
         """Retrieve all groups from the ATT&CKDomain.
 
             Returns
@@ -292,7 +294,7 @@ class ATTACKDomain(object):
 
 
     @property
-    def software(self):
+    def software(self) -> List[dict]:
         """Retrieve all software from the ATT&CKDomain.
 
             Returns
@@ -333,7 +335,11 @@ class ATTACKDomain(object):
     #                       Add MITRE ID to concepts                       #
     ########################################################################
 
-    def add_mitre_attack_id(self, concepts, keys=['identifier']):
+    def add_mitre_attack_id(
+            self,
+            concepts: Iterable[dict],
+            keys    : List[str] = ['identifier'],
+        ) -> List[dict]:
         """Add MITRE ATT&CK ID to a multiple concepts.
 
             Parameters
@@ -355,7 +361,11 @@ class ATTACKDomain(object):
             for concept in concepts
         ]
 
-    def _add_mitre_attack_id_(self, concept, keys=['identifier']):
+    def _add_mitre_attack_id_(
+            self,
+            concept: dict,
+            keys   : List[str] = ['identifier'],
+        ) -> dict:
         """Add MITRE ATT&CK ID to a single concept.
 
             Parameters
@@ -392,7 +402,7 @@ class ATTACKDomain(object):
     ########################################################################
 
     @property
-    def graph(self):
+    def graph(self) -> nx.DiGraph:
         """Get the relations within the ATT&CK domain as a graph.
 
             Returns
@@ -540,7 +550,11 @@ class ATTACKDomain(object):
         return self._graph
 
 
-    def related_concepts(self, identifier, depth=1):
+    def related_concepts(
+            self,
+            identifier: str,
+            depth     : int = 1,
+        ) -> Set[dict]:
         """Returns all concepts related to the given identifier.
 
             Format
@@ -610,7 +624,7 @@ class ATTACKDomain(object):
     ########################################################################
 
     @property
-    def concepts(self):
+    def concepts(self) -> Iterator[dict]:
         """Generator over all concepts of the ATT&CK framework for this domain.
 
             Note
@@ -640,7 +654,7 @@ class ATTACKDomain(object):
         yield from self.software
 
 
-    def map_id(self):
+    def map_id(self) -> Dict[str, dict]:
         """Get a map of all ID -> ATT&CK concepts.
 
             Returns
@@ -655,7 +669,7 @@ class ATTACKDomain(object):
         }
 
 
-    def map_uuid(self):
+    def map_uuid(self) -> Dict[str, dict]:
         """Get a map of all UUID -> ATT&CK concepts.
 
             Returns
@@ -670,12 +684,12 @@ class ATTACKDomain(object):
         }
 
 
-    def filter_deprecated(self, concepts):
+    def filter_deprecated(self, concepts: Iterable[dict]) -> List[dict]:
         """Filter deprecated and revoked concepts from given concepts.
 
             Parameters
             ----------
-            concepts : list
+            concepts : Iterable[dict]
                 List of concepts to check for deprecated or revoked attributes.
 
             Returns
@@ -723,7 +737,7 @@ class ATTACKDomain(object):
     #                             I/O methods                              #
     ########################################################################
 
-    def summary(self):
+    def summary(self) -> str:
         """Returns a string summary of ATT&CKDomain."""
         return """ATT&CK domain - {}
 ----------------------------
@@ -747,7 +761,7 @@ class ATTACKDomain(object):
 )
 
 
-    def store_pickle(self, outfile):
+    def store_pickle(self, outfile: str) -> None:
         """Store ATT&CKDomain as pickled file for quicker loading.
 
             Parameters
@@ -761,7 +775,7 @@ class ATTACKDomain(object):
 
 
     @classmethod
-    def load_pickle(cls, infile):
+    def load_pickle(cls, infile: str):
         """Load ATT&CKDomain from pickled file for quicker loading.
 
             Parameters
@@ -783,7 +797,7 @@ class ATTACKDomain(object):
 
 
     @classmethod
-    def load(cls, path, domain):
+    def load(cls, path: str, domain: DomainTypes):
         """Load ATT&CKDomain from path.
 
             Parameters
@@ -791,7 +805,7 @@ class ATTACKDomain(object):
             path : string
                 Path from which to load ATT&CKDomain.
 
-            domain : string
+            domain : DomainTypes
                 Name of domain to load.
 
             Returns
@@ -809,8 +823,8 @@ class ATTACKDomain(object):
 
     @classmethod
     def download(cls,
-            url    = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/enterprise-attack/enterprise-attack.json",
-            domain = 'enterprise',
+            url   : str = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/enterprise-attack/enterprise-attack.json",
+            domain: DomainTypes = 'enterprise',
         ):
         """Download ATTACKDomain from url.
 
@@ -830,7 +844,7 @@ class ATTACKDomain(object):
                 automatically replaced by the domain specified by the parameter
                 'domain'.
 
-            domains : string, default='enterprise'
+            domain : DomainTypes, default='enterprise'
                 Domain to download.
 
             Returns
