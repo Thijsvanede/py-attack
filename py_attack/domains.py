@@ -374,7 +374,10 @@ class ATTACKDomain(object):
         # Perform checks
         assert isinstance(concept, dict), "Concept should be a dictionary."
         for key in keys:
-            assert key not in concept, "'{}' is already in concept".format(key)
+            assert (
+                key not in concept or
+                get_id(concept) == concept.get(key)
+            ), "'{}' is already in concept".format(key)
 
         # Add identifier to concept
         identifier = get_id(concept)
@@ -502,7 +505,7 @@ class ATTACKDomain(object):
                     self._graph.add_edge(
                         technique_id,
                         tactic,
-                        relation = "kill_chain_phase"
+                        relation = "kill_chain_phase",
                     )
 
 
@@ -527,6 +530,7 @@ class ATTACKDomain(object):
                     id_source,
                     id_target,
                     relation = relationship_type,
+                    info     = relation,
                 )
 
             # Assert that adding edges did not change the number of nodes

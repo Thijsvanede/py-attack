@@ -421,28 +421,73 @@ class ATTACK(MutableMapping):
         else:
             graph = self.domains.get(domain).graph
 
-        # Remove attributes of nodes in graph
-        for node in graph.nodes():
-            if 'description' in graph.nodes[node]:
-                _ = graph.nodes[node].pop('description')
-
-        # Get graph where the only edges are "ParentOf"
-        graph_ = nx.subgraph_view(
-            graph,
-            filter_edge = lambda u, v: True
-            # graph.edges[(u, v)].get('label') == "test"
-        )
-
         # Get labels
-        labels = {node: graph_.nodes[node].get('id') for node in graph_.nodes()}
+        labels = {node: graph.nodes[node].get('id') for node in graph.nodes()}
 
-        # Plot using a tree hierarchy layout
-        pos = graphviz_layout(graph_, prog='dot')
+        # Set positions
+        pos = {
+            'Group'        : list(),
+            'Software'     : list(),
+            'Technique'    : list(),
+            'Sub-technique': list(),
+            'Mitigation'   : list(),
+            'Tactic'       : list(),
+        }
+
+        # Loop over all nodes
+        for node in graph.nodes():
+            # Get category of node
+            category   = graph.nodes[node].get('category')
+            if category is None: continue
+            identifier = graph.nodes[node].get('id')
+            # Add node to category
+            pos[category].append((node, identifier))
+
+        # Sort nodes per position
+        for key, values in pos.items():
+            # Sort by key
+            pos[key] = [x[0] for x in sorted(values, key=lambda x: x[1])]
+
+        # Create positions
+        positions = {node: (0, 0) for node in graph.nodes()}
+
+        spacing = 10
+        padding = 50
+
+        # Add groups
+        for index, node in enumerate(pos['Group']):
+            positions[node] = (
+                index     * spacing + padding,
+                (index+1) * spacing,
+            )
+
+        # Add software
+        for index, node in enumerate(pos['Software']):
+            positions[node] = (
+                 index     * spacing + padding,
+                -(index+1) * spacing,
+            )
+
+        # Add techniques
+        x = max([y for x, y in positions.values()])
+        for index, node in enumerate(pos['Technique']):
+            positions[node] = (x, 0)
+
+            # Add regular spacing
+            x += spacing
+            # Add spacing for each subtechnique
+
+
+        # Add subtechniques
+
+
+        # Set labels
+        labels = {node: graph.nodes[node].get('id') for node in graph.nodes()}
 
         # Draw graph
         nx.draw(
-            graph_,
-            pos,
+            graph,
+            positions,
             alpha      = 0.8,
             font_size  = 8,
             labels     = labels,
@@ -450,6 +495,9 @@ class ATTACK(MutableMapping):
             node_color = 'black',
             width      = 0.5,
         )
+
+        plt.show()
+        exit()
 
 
 
@@ -517,6 +565,48 @@ class ATTACK(MutableMapping):
 
         # Return all related concepts except identifier
         return related_concepts - {identifier}
+
+
+    def get_relation(self, source, target, bidirectional=True):
+        """Return the relation between a source and targed node.
+
+            Format
+            ------
+            Matrix       : MAxxxx
+            Tactic       : TAxxxx
+            Technique    : Txxxx(.yyy)
+            Sub-Technique: Txxxx.yyy
+            Mitigation   : Mxxxx
+            Group        : Gxxxx
+            Software     : Sxxxx
+
+            Parameters
+            ----------
+            source : string
+                Identifier of source concept according to the given format.
+
+            target : string
+                Identifier of target concept according to the given format.
+
+            bidirectional : boolean, default=True
+                If True, return either the target -> source relation if
+                source -> target is not found.
+
+            Returns
+            -------
+            relation : dict()
+                Relationship between source and target
+            """
+        # Get relation between source -> target
+        result = self.graph.get_edge_data(source, target)
+
+        # If no relation found and bidirectional, return relation between
+        # target -> source instead
+        if result is None and bidirectional:
+            return self.graph.get_edge_data(target, source)
+
+        # Return result
+        return result
 
 
     ########################################################################
