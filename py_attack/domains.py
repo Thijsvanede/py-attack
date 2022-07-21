@@ -592,16 +592,7 @@ class ATTACKDomain:
             depth     : int = 1,
         ) -> Set[dict]:
         """Returns all concepts related to the given identifier.
-
-            Format
-            ------
-            Matrix       : MAxxxx
-            Tactic       : TAxxxx
-            Technique    : Txxxx(.yyy)
-            Sub-Technique: Txxxx.yyy
-            Mitigation   : Mxxxx
-            Group        : Gxxxx
-            Software     : Sxxxx
+            See :ref:`format` for accepted formatting.
 
             Parameters
             ----------
@@ -860,6 +851,9 @@ class ATTACKDomain:
             ----------
             path : string
                 Path from which to load ATT&CKDomain.
+                If the path contains the string ``{domain}``, this will be
+                automatically replaced by the domain specified by the parameter
+                ``domain``.
 
             domain : DomainTypes
                 Name of domain to load.
@@ -869,6 +863,10 @@ class ATTACKDomain:
             result : ATT&CKDomain
                 ATT&CKDomain from loaded file.
             """
+        # Specify domain from which to load ATT&CKDomain if necessary
+        if "{domain}" in path:
+            path = path.format(domain = domain)
+
         # Read file as json
         with open(path, 'r') as infile:
             stix_json = json.load(infile)

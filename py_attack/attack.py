@@ -190,14 +190,14 @@ class ATTACK(MutableMapping):
             Note
             ----
             Yields the following concept types:
-            Matrix
-            Tactic
-            Technique
-            Sub-technique
-            Procedure
-            Mitigation
-            Group
-            Software
+            ``Matrix``,
+            ``Tactic``,
+            ``Technique``,
+            ``Sub-technique``,
+            ``Procedure``,
+            ``Mitigation``,
+            ``Group``,
+            ``Software``.
 
             Yields
             ------
@@ -216,16 +216,17 @@ class ATTACK(MutableMapping):
     @property
     def graph_concepts(self) -> Iterator[dict]:
         """Generator over all ATT&CK concepts present in the graph.
+            This **excludes** ``matrices`` and ``procedures``.
 
             Note
             ----
             Yields the following concept types:
-            Tactic
-            Technique
-            Sub-technique
-            Mitigation
-            Group
-            Software
+            ``Tactic``,
+            ``Technique``,
+            ``Sub-technique``,
+            ``Mitigation``,
+            ``Group``,
+            ``Software``.
 
             Yields
             ------
@@ -245,17 +246,7 @@ class ATTACK(MutableMapping):
 
     def get(self, identifier: str, default: object = None) -> dict:
         """Map identifier to ATT&CK concept.
-
-            Format
-            ------
-            Matrix       : MAxxxx
-            Tactic       : TAxxxx
-            Technique    : Txxxx(.yyy)
-            Sub-Technique: Txxxx.yyy
-            Mitigation   : Mxxxx
-            Group        : Gxxxx
-            Software     : Sxxxx
-            UUID         : <STIX-TYPE>--<UUID>
+            See :ref:`format` for accepted formatting.
 
             Parameters
             ----------
@@ -506,16 +497,7 @@ class ATTACK(MutableMapping):
 
     def related_concepts(self, identifier: str, depth: int = 1) -> Set[dict]:
         """Returns all concepts related to the given identifier.
-
-            Format
-            ------
-            Matrix       : MAxxxx
-            Tactic       : TAxxxx
-            Technique    : Txxxx(.yyy)
-            Sub-Technique: Txxxx.yyy
-            Mitigation   : Mxxxx
-            Group        : Gxxxx
-            Software     : Sxxxx
+            See :ref:`format` for accepted formatting.
 
             Parameters
             ----------
@@ -577,24 +559,17 @@ class ATTACK(MutableMapping):
             bidirectional: bool = True,
         ) -> dict:
         """Return the relation between a source and targed node.
-
-            Format
-            ------
-            Matrix       : MAxxxx
-            Tactic       : TAxxxx
-            Technique    : Txxxx(.yyy)
-            Sub-Technique: Txxxx.yyy
-            Mitigation   : Mxxxx
-            Group        : Gxxxx
-            Software     : Sxxxx
+            See :ref:`format` for accepted formatting.
 
             Parameters
             ----------
             source : string
-                Identifier of source concept according to the given format.
+                Identifier of source concept according to the given
+                :ref:`format`.
 
             target : string
-                Identifier of target concept according to the given format.
+                Identifier of target concept according to the given
+                :ref:`format`.
 
             bidirectional : boolean, default=True
                 If True, return either the target -> source relation if
