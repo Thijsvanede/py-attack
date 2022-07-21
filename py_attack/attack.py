@@ -288,7 +288,7 @@ class ATTACK(MutableMapping):
 
             # Add map from each domain
             for domain, attack in sorted(self.domains.items()):
-                for id, concept in attack.map_id().items():
+                for id, concept in attack.map_id.items():
 
                     # Skip double entries
                     # TODO define as list to allow for double mappings?
@@ -323,7 +323,7 @@ class ATTACK(MutableMapping):
 
             # Add map from each domain
             for domain, attack in sorted(self.domains.items()):
-                for uuid, concept in attack.map_uuid().items():
+                for uuid, concept in attack.map_uuid.items():
 
                     # Skip double entries
                     # TODO define as list to allow for double mappings?
@@ -723,14 +723,25 @@ class ATTACK(MutableMapping):
 
     @classmethod
     def download(cls,
-            url    : str = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/{domain}-attack/{domain}-attack.json",
+            url    : str = "https://raw.githubusercontent.com/mitre/cti/master/{domain}-attack/{domain}-attack.json",
             domains: List[DomainTypes] = ['enterprise', 'ics', 'mobile', 'pre'],
         ):
         """Download ATT&CK framework from url.
 
+            Note
+            ----
+            We recommend to download the MITRE CTI repository to a local
+            directory and load the ATTACK object through the :py:meth:`load`
+            method. This assures that your project works with a consistent
+            version of the MITRE ATT&CK framework and avoids repeated
+            downloading of the CTI sources.
+
+            The MITRE CTI repository can be found here:
+            https://github.com/mitre/cti.
+
             Parameters
             ----------
-            url : string, default="https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/{domain}-attack/{domain}-attack.json"
+            url : string, default="https://raw.githubusercontent.com/mitre/cti/master/{domain}-attack/{domain}-attack.json"
                 URL from which to download ATT&CK database.
                 Note that URL should contain the {domain} template to set
                 specific version and domains to load.

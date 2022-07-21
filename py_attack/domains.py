@@ -4,12 +4,12 @@ import pickle
 import re
 from py_attack.types import DomainTypes
 import requests
-from typing import Dict, Iterable, Iterator, List, Set
+from typing import Dict, Iterable, Iterator, List, Optional, Set
 
 from py_attack.utils  import get_id, get_uuid
 from py_attack.filter import Filter, query
 
-class ATTACKDomain(object):
+class ATTACKDomain:
     """The ATTACKDomain object provides a simple interface for loading and
         interacting with a domain in the ATT&CK framework."""
 
@@ -38,6 +38,35 @@ class ATTACKDomain(object):
 
         # Set empty cache
         self.clear()
+
+    ########################################################################
+    #                             Get methods                              #
+    ########################################################################
+
+    def __getitem__(self, key: str) -> Optional[dict]:
+        """Return concept for given identifier."""
+        return self.get(key, KeyError(key))
+
+    def get(self, key: str, default: object = None) -> Optional[dict]:
+        """Return concept for given identifier.
+        
+            Parameters
+            ----------
+            key : str
+                Key to get for domain.
+                
+            default : object, default=None
+                Default to return if no object could be found.
+                
+            """
+        # Get result
+        result = self.map_id.get(key, self.map_uuid.get(key, default))
+
+        # Check for error
+        if isinstance(result, Exception): raise result
+
+        # Otherwise return result
+        return result
 
     ########################################################################
     #                    Retrieve specific ATT&CK data                     #
@@ -486,7 +515,6 @@ class ATTACKDomain(object):
             ############################################################
             #                  Concepts by reference                   #
             ############################################################
-            map_uuid = self.map_uuid()
 
             ref_tactics_name = {
                 tactic.get('x_mitre_shortname'): tactic
@@ -522,8 +550,8 @@ class ATTACKDomain(object):
             # Add relations between mitigations and techniques
             for relation in self.relationships:
                 # Get source and target
-                source = map_uuid.get(relation.get('source_ref'))
-                target = map_uuid.get(relation.get('target_ref'))
+                source = self.map_uuid.get(relation.get('source_ref'))
+                target = self.map_uuid.get(relation.get('target_ref'))
 
                 # Skip if the source or target is unknown
                 if source is None or target is None: continue
@@ -654,6 +682,7 @@ class ATTACKDomain(object):
         yield from self.software
 
 
+    @property
     def map_id(self) -> Dict[str, dict]:
         """Get a map of all ID -> ATT&CK concepts.
 
@@ -662,13 +691,21 @@ class ATTACKDomain(object):
             map : dict()
                 Dictionary of ID -> ATT&CK concept.
             """
-        return {
-            get_id(concept): concept
-            for concept in self.concepts
-            if get_id(concept)
-        }
+        # Cache map
+        if self._map_id is None:
+
+            # Initialise map
+            self._map_id = {
+                get_id(concept): concept
+                for concept in self.concepts
+                if get_id(concept)
+            }
+
+        # Return map
+        return self._map_id
 
 
+    @property
     def map_uuid(self) -> Dict[str, dict]:
         """Get a map of all UUID -> ATT&CK concepts.
 
@@ -677,11 +714,18 @@ class ATTACKDomain(object):
             map : dict()
                 Dictionary of UUID -> ATT&CK concept.
             """
-        return {
-            get_uuid(concept): concept
-            for concept in self.concepts
-            if get_uuid(concept)
-        }
+        # Cache map
+        if self._map_uuid is None:
+
+            # Initialise map
+            self._map_uuid = {
+                get_uuid(concept): concept
+                for concept in self.concepts
+                if get_uuid(concept)
+            }
+
+        # Return map
+        return self._map_uuid
 
 
     def filter_deprecated(self, concepts: Iterable[dict]) -> List[dict]:
@@ -726,6 +770,10 @@ class ATTACKDomain(object):
         self._mitigations    = None
         self._groups         = None
         self._software       = None
+
+        # (Re)set maps
+        self._map_id   = None
+        self._map_uuid = None
 
         # (Re)set graph
         self._graph = None
@@ -823,26 +871,38 @@ class ATTACKDomain(object):
 
     @classmethod
     def download(cls,
-            url   : str = "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/enterprise-attack/enterprise-attack.json",
+            url   : str = "https://raw.githubusercontent.com/mitre/cti/master/{domain}-attack/{domain}-attack.json",
             domain: DomainTypes = 'enterprise',
         ):
         """Download ATTACKDomain from url.
 
+            Note
+            ----
+            We recommend to download the MITRE CTI repository to a local
+            directory and load the ATTACK object through the :py:meth:`load`
+            method. This assures that your project works with a consistent
+            version of the MITRE ATT&CK framework and avoids repeated
+            downloading of the CTI sources.
+
+            The MITRE CTI repository can be found here:
+            https://github.com/mitre/cti.
+
             Example
             -------
             All content should be available from the following URL(s):
-            "https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v{version}/{domain}-attack/{domain}-attack.json"
-            Where {version} is the version you want to retrieve, e.g. "8.2" for
-            version 8.2 and {domain} is the domain you want to retrieve, e.g.
-            "enterprise".
+            ``https://raw.githubusercontent.com/mitre/cti/{version}/{domain}-attack/{domain}-attack.json``
+            Where ``{version}`` is the version you want to retrieve, e.g.
+            ``master`` for the current version or ``ATT%26CK-v8.2`` for version
+            8.2 and ``{domain}`` is the domain you want to retrieve, e.g.
+            ``enterprise``.
 
             Parameters
             ----------
-            url : string, default="https://raw.githubusercontent.com/mitre/cti/ATT%26CK-v8.2/enterprise-attack/enterprise-attack.json"
+            url : string, default="https://raw.githubusercontent.com/mitre/cti/master/{domain}-attack/{domain}-attack.json"
                 URL from which to download ATT&CKDomain.
-                If the url contains the string '{domain}', this will be
+                If the url contains the string ``{domain}``, this will be
                 automatically replaced by the domain specified by the parameter
-                'domain'.
+                ``domain``.
 
             domain : DomainTypes, default='enterprise'
                 Domain to download.
