@@ -12,8 +12,6 @@ from py_attack.domains import ATTACKDomain
 # Plot imports
 import matplotlib.pyplot as plt
 from py_attack.types import DomainTypes
-import pydot
-from networkx.drawing.nx_pydot import graphviz_layout
 
 class ATTACK(MutableMapping):
     """The ATTACK object provides a simple interface for loading and interacting
@@ -498,7 +496,6 @@ class ATTACK(MutableMapping):
         )
 
         plt.show()
-        exit()
 
 
 
