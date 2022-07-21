@@ -71,5 +71,9 @@ graph = attack.graph
 graph_enterprise = attack['enterprise'].graph
 graph_enterprise = enterprise_domain.graph
 
+# Write graph to output file
+import networkx as nx
+nx.write_gexf(graph, 'graph.gexf')
+
 # Find related concepts
 related = attack.related_concepts('T1087')
