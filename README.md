@@ -22,7 +22,7 @@ We provide an extensive documentation including installation instructions and re
 However, that documentation is currently not yet online, so instead, please refer to the `/docs/` directory.
 To build the documentation, simply run `make html` from within the `/docs/` directory.
 
-### Installation
+## Installation
 The `py-attack` module can be installed using pip if downloaded locally.
 There currently is no way of installing it directly from the pip repository.
 
