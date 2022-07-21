@@ -43,8 +43,16 @@ class ATTACKDomain:
     #                             Get methods                              #
     ########################################################################
 
-    def __getitem__(self, key: str) -> Optional[dict]:
-        """Return concept for given identifier."""
+    def __getitem__(self, key: str) -> dict:
+        """Return concept for given identifier.
+        
+            Usage: domain[key]
+        
+            Parameters
+            ----------
+            key : str
+                Key to get for domain.
+            """
         return self.get(key, KeyError(key))
 
     def get(self, key: str, default: object = None) -> Optional[dict]:
@@ -658,14 +666,14 @@ class ATTACKDomain:
             Note
             ----
             Yields the following concept types:
-            Matrix
-            Tactic
-            Technique
-            Sub-technique
-            Procedure
-            Mitigation
-            Group
-            Software
+            ``Matrix``,
+            ``Tactic``,
+            ``Technique``,
+            ``Sub-technique``,
+            ``Procedure``,
+            ``Mitigation``,
+            ``Group``,
+            ``Software``.
 
             Yields
             ------
@@ -879,9 +887,9 @@ class ATTACKDomain:
             Note
             ----
             We recommend to download the MITRE CTI repository to a local
-            directory and load the ATTACK object through the :py:meth:`load`
-            method. This assures that your project works with a consistent
-            version of the MITRE ATT&CK framework and avoids repeated
+            directory and load the ATTACKDomain object through the
+            :py:meth:`load` method. This assures that your project works with a
+            consistent version of the MITRE ATT&CK framework and avoids repeated
             downloading of the CTI sources.
 
             The MITRE CTI repository can be found here:
