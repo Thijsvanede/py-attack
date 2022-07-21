@@ -41,19 +41,24 @@ class ATTACK(MutableMapping):
         self.clear()
 
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: DomainTypes) -> ATTACKDomain:
+        """Returns the given ATTACKDomain for the given DomainType."""
         return self.domains[key]
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: DomainTypes, value: ATTACKDomain) -> None:
+        """Sets the given DomainType to the given ATTACKDomain."""
         self.domains[key] = value
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: DomainTypes) -> None:
+        """Removes the ATTACKDomain for the given DomainType."""
         del self.domains[key]
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[DomainTypes]:
+        """Returns an iterator over domains in current ATTACK object."""
         return iter(self.domains)
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Returns the number of domains in current ATTACK object."""
         return len(self.domains)
 
     ########################################################################
