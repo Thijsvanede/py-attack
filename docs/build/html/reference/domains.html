@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ATTACKDomain &mdash; py-attack 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="filter" href="filter.html" />
+    <link rel="prev" title="ATTACK" href="attack.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> py-attack
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="attack.html">ATTACK</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ATTACKDomain</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initialization">Initialization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#getters">Getters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#iterators">Iterators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#graph">Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="filter.html">filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#format">format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citing.html">Citing</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">py-attack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="overview.html">Reference</a> &raquo;</li>
+        
+      <li>ATTACKDomain</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/reference/domains.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="attackdomain">
+<span id="id1"></span><h1>ATTACKDomain<a class="headerlink" href="#attackdomain" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">ATTACKDomain</span></code> object provides a simple interface for loading and interacting with a single domain within the ATT&amp;CK framework.</p>
+<dl class="py class">
+<dt id="attack.ATTACKDomain">
+<em class="property">class </em><code class="sig-prename descclassname">attack.</code><code class="sig-name descname">ATTACKDomain</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">domain</span><span class="p">:</span> <span class="n">Literal<span class="p">[</span>enterprise<span class="p">, </span>ics<span class="p">, </span>mobile<span class="p">, </span>pre<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">store</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ATTACKDomain object provides a simple interface for loading and
+interacting with a domain in the ATT&amp;CK framework.</p>
+</dd></dl>
+
+<div class="section" id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h2>
+<p>We provide two methods of loading the <code class="docutils literal notranslate"><span class="pre">ATTACKDomain</span></code> object, either from a local repository through <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code>, or by downloading the <code class="docutils literal notranslate"><span class="pre">ATTACKDomain</span></code> object from a remote repository using <code class="xref py py-meth docutils literal notranslate"><span class="pre">download()</span></code>.
+The recommended way of initializing an <code class="docutils literal notranslate"><span class="pre">ATTACKDomain</span></code> object is through <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code> as this assures that your project works with a consistent version of the MITRE ATT&amp;CK framework and avoids repeated downloading of the CTI sources.</p>
+<dl class="py method">
+<dt id="attack.ATTACKDomain.load">
+<em class="property">classmethod </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">domain</span><span class="p">:</span> <span class="n">Literal<span class="p">[</span>enterprise<span class="p">, </span>ics<span class="p">, </span>mobile<span class="p">, </span>pre<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load ATT&amp;CKDomain from path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>string</em>) – Path from which to load ATT&amp;CKDomain.
+If the path contains the string <code class="docutils literal notranslate"><span class="pre">{domain}</span></code>, this will be
+automatically replaced by the domain specified by the parameter
+<code class="docutils literal notranslate"><span class="pre">domain</span></code>.</p></li>
+<li><p><strong>domain</strong> (<em>DomainTypes</em>) – Name of domain to load.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – ATT&amp;CKDomain from loaded file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ATT&amp;CKDomain</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.download">
+<em class="property">classmethod </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'https://raw.githubusercontent.com/mitre/cti/master/{domain}-attack/{domain}-attack.json'</span></em>, <em class="sig-param"><span class="n">domain</span><span class="p">:</span> <span class="n">Literal<span class="p">[</span>enterprise<span class="p">, </span>ics<span class="p">, </span>mobile<span class="p">, </span>pre<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'enterprise'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain.download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download ATTACKDomain from url.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We recommend to download the MITRE CTI repository to a local
+directory and load the ATTACKDomain object through the
+<a class="reference internal" href="#attack.ATTACKDomain.load" title="attack.ATTACKDomain.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> method. This assures that your project works with a
+consistent version of the MITRE ATT&amp;CK framework and avoids repeated
+downloading of the CTI sources.</p>
+<p>The MITRE CTI repository can be found here:
+<a class="reference external" href="https://github.com/mitre/cti">https://github.com/mitre/cti</a>.</p>
+</div>
+<p class="rubric">Example</p>
+<p>All content should be available from the following URL(s):
+<code class="docutils literal notranslate"><span class="pre">https://raw.githubusercontent.com/mitre/cti/{version}/{domain}-attack/{domain}-attack.json</span></code>
+Where <code class="docutils literal notranslate"><span class="pre">{version}</span></code> is the version you want to retrieve, e.g.
+<code class="docutils literal notranslate"><span class="pre">master</span></code> for the current version or <code class="docutils literal notranslate"><span class="pre">ATT%26CK-v8.2</span></code> for version
+8.2 and <code class="docutils literal notranslate"><span class="pre">{domain}</span></code> is the domain you want to retrieve, e.g.
+<code class="docutils literal notranslate"><span class="pre">enterprise</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (string, default=”<a class="reference external" href="https://raw.githubusercontent.com/mitre/cti/master">https://raw.githubusercontent.com/mitre/cti/master</a>/{domain}-attack/{domain}-attack.json”) – URL from which to download ATT&amp;CKDomain.
+If the url contains the string <code class="docutils literal notranslate"><span class="pre">{domain}</span></code>, this will be
+automatically replaced by the domain specified by the parameter
+<code class="docutils literal notranslate"><span class="pre">domain</span></code>.</p></li>
+<li><p><strong>domain</strong> (<em>DomainTypes</em><em>, </em><em>default='enterprise'</em>) – Domain to download.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – ATTACK from downloaded framework.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="attack.html#attack.ATTACK" title="attack.ATTACK">ATTACK</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import ATT&amp;CK</span>
+<span class="kn">from</span> <span class="nn">py_attack</span> <span class="kn">import</span> <span class="n">ATTACKDomain</span>
+
+<span class="c1"># Load from local repository - recommended</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">ATTACKDomain</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">path</span>   <span class="o">=</span> <span class="s2">&quot;path/to/local/cti/enterprise-attack/enterprise-attack.json&quot;</span><span class="p">,</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;enterprise&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Download from online source</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">ATTACKDomain</span><span class="o">.</span><span class="n">download</span><span class="p">(</span>
+    <span class="n">url</span>    <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json&quot;</span><span class="p">,</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;enterprise&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="getters">
+<span id="domaingetter"></span><h2>Getters<a class="headerlink" href="#getters" title="Permalink to this headline">¶</a></h2>
+<p>You can retrieve a specific MITRE ATT&amp;CK concept according to its identifier (see <a class="reference internal" href="types.html#format"><span class="std std-ref">format</span></a>) or <code class="docutils literal notranslate"><span class="pre">UUID</span></code>.</p>
+<dl class="py method">
+<dt id="attack.ATTACKDomain.__getitem__">
+<code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return concept for given identifier.</p>
+<p>Usage: domain[key]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – Key to get for domain.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.get">
+<code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>object<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>dict<span class="p">]</span><a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return concept for given identifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – Key to get for domain.</p></li>
+<li><p><strong>default</strong> (<em>object</em><em>, </em><em>default=None</em>) – Default to return if no object could be found.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="id2">
+<h3>Example<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import ATT&amp;CK</span>
+<span class="kn">from</span> <span class="nn">py_attack</span> <span class="kn">import</span> <span class="n">ATTACKDomain</span>
+
+<span class="c1"># Load from local repository - recommended</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">ATTACKDomain</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">path</span>   <span class="o">=</span> <span class="s2">&quot;path/to/local/cti/enterprise-attack/enterprise-attack.json&quot;</span><span class="p">,</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;enterprise&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Get technique using ID T1087</span>
+<span class="n">technique</span> <span class="o">=</span> <span class="n">domain</span><span class="p">[</span><span class="s1">&#39;T1087&#39;</span><span class="p">]</span>
+<span class="n">technique</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;T1087&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="iterators">
+<h2>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h2>
+<p>Rather than retrieving a concept via one of the <a class="reference internal" href="#domaingetter">DomainGetter</a> methods, you can also iterate over various <code class="docutils literal notranslate"><span class="pre">concepts</span></code>.
+A domain within the MITRE ATT&amp;CK framework consists of the following <code class="docutils literal notranslate"><span class="pre">concepts</span></code>: <code class="docutils literal notranslate"><span class="pre">matrices</span></code>, <code class="docutils literal notranslate"><span class="pre">tactics</span></code>, <code class="docutils literal notranslate"><span class="pre">techniques</span></code>, <code class="docutils literal notranslate"><span class="pre">sub_techniques</span></code>, <code class="docutils literal notranslate"><span class="pre">groups</span></code>, <code class="docutils literal notranslate"><span class="pre">software</span></code>, <code class="docutils literal notranslate"><span class="pre">procedures</span></code>, <code class="docutils literal notranslate"><span class="pre">relationships</span></code> and <code class="docutils literal notranslate"><span class="pre">mitigations</span></code>,.
+All of these are easily accessible via the following iterator properties:</p>
+<dl class="py method">
+<dt id="attack.ATTACKDomain.concepts">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">concepts</code><a class="headerlink" href="#attack.ATTACKDomain.concepts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator over all concepts of the ATT&amp;CK framework for this domain.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Yields the following concept types:
+<code class="docutils literal notranslate"><span class="pre">Matrix</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Tactic</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Technique</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Sub-technique</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Procedure</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Mitigation</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Group</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Software</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><strong>concept</strong> (<em>dict()</em>) – A dictionary describing each ATT&amp;CK concept.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.matrices">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">matrices</code><a class="headerlink" href="#attack.ATTACKDomain.matrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all matrices from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>matrices</strong> – List of dict() objects representing all matrices.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.tactics">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">tactics</code><a class="headerlink" href="#attack.ATTACKDomain.tactics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all tactics from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>tactics</strong> – List of dict() objects representing all tactics.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.techniques">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">techniques</code><a class="headerlink" href="#attack.ATTACKDomain.techniques" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all techniques from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>techniques</strong> – List of dict() objects representing all techniques.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.sub_techniques">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">sub_techniques</code><a class="headerlink" href="#attack.ATTACKDomain.sub_techniques" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all sub-techniques from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>sub_techniques</strong> – List of dict() objects representing all sub-techniques.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.groups">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">groups</code><a class="headerlink" href="#attack.ATTACKDomain.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all groups from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>groups</strong> – List of dict() objects representing all groups.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.software">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">software</code><a class="headerlink" href="#attack.ATTACKDomain.software" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all software from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>software</strong> – List of dict() objects representing all software.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.procedures">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">procedures</code><a class="headerlink" href="#attack.ATTACKDomain.procedures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all procedures from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>procedures</strong> – List of dict() objects representing all procedures.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.relationships">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">relationships</code><a class="headerlink" href="#attack.ATTACKDomain.relationships" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all relationships from the ATT&amp;CKDomain.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While not all relationships are part of the ATT&amp;CK concepts, it is
+useful to have a method for extracting relationships. Among others
+to build the ATT&amp;CK graph.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>relationships</strong> – List of dict() objects representing all relationships.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="attack.ATTACKDomain.mitigations">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">mitigations</code><a class="headerlink" href="#attack.ATTACKDomain.mitigations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all mitigations from the ATT&amp;CKDomain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>mitigations</strong> – List of dict() objects representing all mitigations.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import ATT&amp;CK</span>
+<span class="kn">from</span> <span class="nn">py_attack</span> <span class="kn">import</span> <span class="n">ATTACKDomain</span>
+
+<span class="c1"># Load from local repository - recommended</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">ATTACKDomain</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">path</span>   <span class="o">=</span> <span class="s2">&quot;path/to/local/cti/enterprise-attack/enterprise-attack.json&quot;</span><span class="p">,</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;enterprise&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Iterate over different concepts</span>
+<span class="k">for</span> <span class="n">concept</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">concepts</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">matrices</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">matrices</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">tactics</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">tactics</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">techniques</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">techniques</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">sub_techniques</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">sub_techniques</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">groups</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">software</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">software</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">procedures</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">procedures</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">relationships</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">relationships</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="k">for</span> <span class="n">mitigations</span> <span class="ow">in</span> <span class="n">domain</span><span class="o">.</span><span class="n">mitigations</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="graph">
+<h2>Graph<a class="headerlink" href="#graph" title="Permalink to this headline">¶</a></h2>
+<p>All concepts within the <code class="docutils literal notranslate"><span class="pre">ATTACKDomain</span></code> have defined relations between them.
+E.g., <code class="docutils literal notranslate"><span class="pre">groups</span></code> use <code class="docutils literal notranslate"><span class="pre">techniques</span></code> to achieve <code class="docutils literal notranslate"><span class="pre">tactics</span></code> using specific <code class="docutils literal notranslate"><span class="pre">software</span></code>.
+These concepts and relations can therefore be modeled in a graph provided by the <code class="docutils literal notranslate"><span class="pre">graph</span></code> property.</p>
+<dl class="py method">
+<dt id="attack.ATTACKDomain.graph">
+<em class="property">property </em><code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">graph</code><a class="headerlink" href="#attack.ATTACKDomain.graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the relations within the ATT&amp;CK domain as a graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>graph</strong> – Directed graph representing the ATT&amp;CK domain.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>nx.DiGraph()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Because all these concepts are related, we provide a method to find concepts that are (in)directly related to a given concept:</p>
+<dl class="py method">
+<dt id="attack.ATTACKDomain.related_concepts">
+<code class="sig-prename descclassname">ATTACKDomain.</code><code class="sig-name descname">related_concepts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">identifier</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">depth</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; Set<span class="p">[</span>dict<span class="p">]</span><a class="reference internal" href="../_modules/py_attack/domains.html#ATTACKDomain.related_concepts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attack.ATTACKDomain.related_concepts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all concepts related to the given identifier.
+See <a class="reference internal" href="types.html#format"><span class="std std-ref">format</span></a> for accepted formatting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>identifier</strong> (<em>string</em>) – Identifier according to the given format.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>default=1</em>) – Depth of related concepts in graph. 1 means only direct
+neighbors, 2 includes neighbors of neighbors, etc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>related_concepts</strong> – Set of related concepts</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>set()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="id4">
+<h3>Example<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import ATT&amp;CK</span>
+<span class="kn">from</span> <span class="nn">py_attack</span> <span class="kn">import</span> <span class="n">ATTACKDomain</span>
+
+<span class="c1"># Load from local repository - recommended</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="n">ATTACKDomain</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+    <span class="n">path</span>   <span class="o">=</span> <span class="s2">&quot;path/to/local/cti/enterprise-attack/enterprise-attack.json&quot;</span><span class="p">,</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;enterprise&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Get domain graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">graph</span>
+
+<span class="c1"># Get concepts related to given ID T1087</span>
+<span class="n">related</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">related_concepts</span><span class="p">(</span><span class="s1">&#39;T1087&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="filter.html" class="btn btn-neutral float-right" title="filter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="attack.html" class="btn btn-neutral float-left" title="ATTACK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Thijs van Ede.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
