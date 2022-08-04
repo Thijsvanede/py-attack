@@ -677,7 +677,10 @@ class ATTACK(MutableMapping):
                 ATTACK loaded from JSON string.
             """
         # Load json from string
-        return cls(json.loads(json_str))
+        return cls({
+            name: ATTACKDomain.from_json(domain)
+            for name, domain in json.loads(json_str).items()
+        })
 
 
     @classmethod
