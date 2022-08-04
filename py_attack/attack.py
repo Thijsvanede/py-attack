@@ -1,5 +1,6 @@
 # Imports
 import copy
+import json
 import networkx as nx
 import pickle
 import re
@@ -631,6 +632,7 @@ class ATTACK(MutableMapping):
 
         # Return result
         return result
+        
 
     def store_pickle(self, outfile: str) -> None:
         """Store ATT&CK framework as pickled file for quicker loading.
@@ -643,6 +645,40 @@ class ATTACK(MutableMapping):
         # Write to output file
         with open(outfile, 'wb') as outfile:
             pickle.dump(self, outfile)
+
+
+    def to_json(self) -> str:
+        """Transform ATTACK to a JSON string.
+            Also see :py:meth:`from_json`.
+        
+            Returns
+            -------
+            json : str
+                JSON string representing ATTACK.
+            """
+        return json.dumps({
+            name: domain.to_json() for name, domain in self.domains.items()
+        })
+
+
+    @classmethod
+    def from_json(cls, json_str: str):
+        """Load ATTACK from JSON string.
+            Also see :py:meth:`to_json`.
+        
+            Parameters
+            ----------
+            json_str : str
+                JSON string representing ATTACK.
+            
+            Returns
+            -------
+            domain : ATTACK
+                ATTACK loaded from JSON string.
+            """
+        # Load json from string
+        return cls(json.loads(json_str))
+
 
     @classmethod
     def load_pickle(cls, infile: str):

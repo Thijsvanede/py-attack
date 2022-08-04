@@ -843,6 +843,46 @@ class ATTACKDomain:
         return attack
 
 
+    def to_json(self) -> str:
+        """Transform AttackDomain to a JSON string.
+            Also see :py:meth:`from_json`.
+        
+            Returns
+            -------
+            json : str
+                JSON string representing domain.
+            """
+        return json.dumps({
+            'domain': self.domain,
+            'store' : self.store,
+        })
+
+
+    @classmethod
+    def from_json(cls, json_str: str):
+        """Load AttackDomain from JSON string.
+            Also see :py:meth:`to_json`.
+        
+            Parameters
+            ----------
+            json_str : str
+                JSON string representing domain.
+            
+            Returns
+            -------
+            domain : AttackDomain
+                AttackDomain loaded from JSON string.
+            """
+        # Load json from string
+        json_str = json.loads(json_str)
+
+        # Return ATTACK
+        return cls(
+            domain = json_str['domain'],
+            store  = json_str['store'],
+        )
+
+
     @classmethod
     def load(cls, path: str, domain: DomainTypes):
         """Load ATT&CKDomain from path.
