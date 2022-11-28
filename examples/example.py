@@ -7,8 +7,7 @@ from py_attack import ATTACK, ATTACKDomain
 
 # Load ATTACK framework from local path
 attack = ATTACK.load(
-    # path    = "path/to/local/cti/{domain}-attack/{domain}-attack.json",
-    path    = "/home/thijs/Documents/research/eagle/data/mitre/cti_v10.1/{domain}-attack/{domain}-attack.json",
+    path    = "path/to/local/cti/{domain}-attack/{domain}-attack.json",
     domains = ['enterprise', 'ics', 'mobile', 'pre'],
 )
 
