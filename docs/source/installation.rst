@@ -2,13 +2,9 @@ Installation
 ============
 The most straightforward way of installing `py-attack` is via pip.
 
-.. note::
-
-  Currently not available, see :ref:`From source`.
-
 .. code::
 
-  pip install py-attack
+  pip3 install py-attack
 
 .. _`From source`:
 
